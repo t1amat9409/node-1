@@ -7,7 +7,7 @@
     "start": "nodemon src/index.js"
   },
   "dependencies": {
-    "fs": "0.0.1-security"
+    "fs": "latest"
   },
   "devDependencies": {
     "nodemon": "1.18.4"
