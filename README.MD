@@ -33,3 +33,5 @@
 
 ## Section 4 - NodeJS coding
 - See ***load_contents.js*** file
+
+## Section 5 - NodeJS coding with classes - Fruit Basket
