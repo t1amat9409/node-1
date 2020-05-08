@@ -1,60 +1,22 @@
-//Imaginary mongoose models
-const {User, File, Post} = require("./model");
+const fs = require('fs');
+const path = process.argv[2];
 
-const ReturnDataExample = {
-  files: [],
-  posts: [],
-  user: []
-}
-
-//HELLWAY
-const getUserData = (_id) => {
-  const Data = {}; 
-  User.findOne({_id}, (error, user)=>{
-    if(error){
-      return {
-        ...err,
-        userError: true
-      }
+const getFileContents = (path = "") => {
+  const exists = fs.existsSync(path);
+  if (exists) {
+    const fStat = fs.statSync(path);
+    if (fStat && fStat.size > 0) {
+      const contents = fs.readFileSync(path);
+      return contents ? contents : new Error("Error trying to get stats");
+    } else if (fStat.size === 0) {
+      return new Error("File exists but there is no content");
+    } else {
+      return new Error("Error trying to get stats");
     }
-    Data.user = user; //Set User For
-    Post.find({author:_id}, (err, posts)=>{
-      if(err){
-        return {
-          ...err,
-          postsError: true
-        }
-      }
-      Data.posts = posts; //Set Posts For
-      return File.find({author:_id},(file_err, files)=>{
-        if(file_err){
-          return {
-            ...file_err,
-            filesError: true
-          }
-        }
-        Data.files = files; //Set Files For
-        return Data;
-      })
-    })
-  })
-}
-
-//NICEWAY
-const getUserDataNice = async (_id) => {
-  try{
-    const user = await User.findOne({_id});
-    const posts = await Post.find({author:_id});
-    const files = await File.find({author:_id});
-    return {
-      user,
-      files,
-      posts
-    }
-  } catch(err){
-    //run with error here
-    return {
-      ...err
-    }
+  } else {
+    return new Error("File does not exist");
   }
-}
+};
+
+const fileContent = getFileContents(path);
+console.log(fileContent);
