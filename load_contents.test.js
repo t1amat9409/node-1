@@ -1,4 +1,4 @@
-const initBasccket = require("./index");
+const util = require("./index");
 const o = [
   {
     id: "1ceb8c95-736f-4da3-86d9-86d55893b38a",
@@ -13,5 +13,6 @@ const o = [
 ];
 
 test("Test output content", () => {
-  expect(initBasccket()).toBe(o);
+  const type = util.objectTypify(util.initBasccket()[0]);
+  expect(type).toBe(util.objectTypify(o[0]));
 });
