@@ -75,6 +75,17 @@ class FruitBasket {
     let data_ = JSON.stringify(data);
     fs.writeFileSync(output, data_);
   }
+  
+  toOutput() {
+    const { id, weight } = this;
+    const content = {
+      id,
+      total_fruits: this.contents.length,
+      total_weight: weight(),
+      fruit_counts: this.contents
+    };
+    return [content];
+  }
 }
 
 const initBasccket = () => {
@@ -92,3 +103,5 @@ const initBasccket = () => {
 };
 
 initBasccket();
+
+module.exports = initBasccket;
