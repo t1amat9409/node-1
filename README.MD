@@ -32,3 +32,4 @@
 - Mostly background tasks, but also any task that it's return value is not high in importancy, like update table or files that are not needed in the return data of the current execution, but will need to be updated by during the operation.
 
 ## Section 4 - NodeJS coding
+- See ***load_contents.js*** file
