@@ -102,6 +102,25 @@ const initBasccket = () => {
   console.log(test.toFile());
 };
 
+const typify = (key, value) => {
+  return {
+    [key]: typeof value
+  }; //returns {keyName:typeOf} e.g ("id", 100) === {"id":"number"}
+};
+
+const objectTypify = obj => {
+  let _obj = {};
+  Object.keys(obj).forEach((key, i) => {
+    _obj[key] = typify(key, obj[key])[key];
+  });
+
+  return _obj.toString(); //returns a stringified object<typify:type> 
+};
+
 initBasccket();
 
-module.exports = initBasccket;
+module.exports = {
+  initBasccket,
+  objectTypify,
+  typify
+};
