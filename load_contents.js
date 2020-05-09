@@ -88,9 +88,9 @@ class FruitBasket {
   }
 }
 
-const initBasccket = () => {
+const initBasccket = (input_ = false) => {
   let rawdata = fs.readFileSync(input);
-  let data = JSON.parse(rawdata) || [];
+  let data = input_?input_:(JSON.parse(rawdata) || []);
   console.log(data);
 
   const test = new FruitBasket(data[0]);
