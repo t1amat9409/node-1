@@ -1,7 +1,7 @@
 const fs = require('fs');
-const path = process.argv[2];
 const input = __dirname + "/input.json";
 const output = __dirname + "/output.json";
+const path = input;//process.argv[2];
 
 const getFileContents = (path = "") => {
   const exists = fs.existsSync(path);
@@ -21,7 +21,7 @@ const getFileContents = (path = "") => {
 };
 
 const fileContent = getFileContents(path);
-console.log(fileContent);
+//console.log(fileContent);
 
 class Fruit {
   constructor(data) {
@@ -33,14 +33,19 @@ class Fruit {
 
 class FruitBasket {
   constructor({ id, contents, max_weight }) {
-    const _contents = contents || {};
-    this.id = id || Date.now();
+    if(!id){
+      throw new Error('Invalid id passed')
+    }
+    const _contents = contents || [];
+    console.log(max_weight, id)
+    this.id = id;
     this.contents = _contents.map(item => new Fruit(item));
     this.max_weight = max_weight || 0;
     this.toFile = this.toFile.bind(this);
     this.fruits = this.fruits.bind(this);
     this.weight = this.weight.bind(this);
     this.fruitsByType = this.fruitsByType.bind(this);
+    this.toOutput = this.toOutput.bind(this)
   }
 
   fruits(count = false) {
@@ -56,7 +61,7 @@ class FruitBasket {
 
   weight() {
     const _weights = this.contents.map(item => item.weight);
-    return _weights.reduce((a, b) => a + b);
+    return _weights.length === 0?0:_weights.reduce((a, b) => a + b);
   }
 
   toFile() {
@@ -76,30 +81,46 @@ class FruitBasket {
     fs.writeFileSync(output, data_);
   }
   
-  toOutput() {
-    const { id, weight } = this;
+  toOutput(filter = false) {
+    //const { id, weight } = this;
+    const type_match = {};
+    this.contents.forEach((item, i)=>{
+      if(type_match[item.type]){
+        type_match[item.type] = type_match[item.type] + 1;
+      } else{
+        type_match[item.type] = 1;
+      }
+    });
+
+    const fruits = Object.keys(type_match).map((item)=>{
+      return {
+        type: item,
+        count: type_match[item]
+      }
+    });
+
     const content = {
-      id,
+      id:this.id,
       total_fruits: this.contents.length,
-      total_weight: weight(),
-      fruit_counts: this.contents
+      total_weight: this.weight(),
+      fruit_counts: fruits
     };
+
     return [content];
   }
 }
 
-const initBasccket = (input_ = false) => {
+const initBasccket = () => {
   let rawdata = fs.readFileSync(input);
-  let data = input_?input_:(JSON.parse(rawdata) || []);
-  console.log(data);
-
+  let data = (JSON.parse(rawdata) || []);
   const test = new FruitBasket(data[0]);
 
-  console.log(test);
-  console.log(test.fruits(true));
-  console.log(test.fruitsByType("apple", true));
-  console.log(test.weight());
-  console.log(test.toFile());
+  //console.log(test);
+  //console.log(test.fruits(true));
+  //console.log(test.fruitsByType("apple", true));
+  //console.log(test.weight());
+  //console.log(test.toFile());
+  return test.toOutput();
 };
 
 const typify = (key, value) => {
@@ -109,18 +130,20 @@ const typify = (key, value) => {
 };
 
 const objectTypify = obj => {
+  //console.log(typeof obj)
   let _obj = {};
-  Object.keys(obj).forEach((key, i) => {
+  Object.keys(obj || {}).forEach((key, i) => {
     _obj[key] = typify(key, obj[key])[key];
   });
 
-  return _obj.toString(); //returns a stringified object<typify:type> 
+  return _obj//.toString(); //returns a stringified object<typify:type> 
 };
 
-initBasccket();
+//initBasccket();
 
 module.exports = {
   initBasccket,
   objectTypify,
-  typify
+  typify,
+  FruitBasket
 };

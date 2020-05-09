@@ -4,13 +4,16 @@
   "description": "N/A",
   "main": "index.js",
   "scripts": {
-    "start": "node src/index.js"
+    "start": "node src/index.js",
+    "test": "mocha",
+    "test:config": "jest --init"
   },
-  "dependencies": {
-    
-  },
+  "dependencies": {},
   "devDependencies": {
-    "nodemon": "1.18.4"
+    "jest": "^26.0.1",
+    "mocha": "^7.1.2",
+    "nodemon": "1.18.4",
+    "vm": "^0.1.0"
   },
   "keywords": []
 }
