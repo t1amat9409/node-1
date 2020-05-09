@@ -12,7 +12,24 @@ const o = [
   }
 ];
 
+const expectedOutputDummy = {
+    id: "",
+    total_fruits: 0,
+    total_weight: 0,
+    fruit_counts: []
+  }
+
+/**
+** expected output object type :
+{
+  id: "string",
+  total_fruits: "number",
+  total_weight: "number",
+  fruit_counts: "array"
+} 
+*/
+
 test("Test output content", () => {
-  const type = util.objectTypify(util.initBasccket()[0]);
-  expect(type).toBe(util.objectTypify(o[0]));
+  const type = util.objectTypify(o[0]);
+  expect(type).toBe(util.objectTypify(expectedOutputDummy));
 });
