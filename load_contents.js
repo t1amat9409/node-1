@@ -21,7 +21,13 @@ const getFileContents = (path = "") => {
 };
 
 const fileContent = getFileContents(path);
-//console.log(fileContent);
+console.log(fileContent);
+
+/**
+ * FRUIT PROJECT CLASSES
+ * @class Fruit - for fruit object
+ * @class FruitBasket - fruit basket object
+ */
 
 class Fruit {
   constructor(data) {
@@ -110,6 +116,8 @@ class FruitBasket {
   }
 }
 
+
+//Fruit project runner
 const initBasccket = () => {
   let rawdata = fs.readFileSync(input);
   let data = (JSON.parse(rawdata) || []);
