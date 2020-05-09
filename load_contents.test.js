@@ -30,6 +30,6 @@ const expectedOutputDummy = {
 */
 
 test("Test output content", () => {
-  const type = util.objectTypify(o[0]);
+  const type = util.objectTypify(util.initBasccket(o));
   expect(type).toBe(util.objectTypify(expectedOutputDummy));
 });
